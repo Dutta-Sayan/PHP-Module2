@@ -1,0 +1,80 @@
+
+*{
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: 'Arial';
+}
+.container{
+    width: 1200px;
+    margin: auto;
+    height: inherit;
+    h2{
+        padding-top: 10px;
+        text-align: center;
+    }
+}
+.user-details{
+    background-color: #13053c;
+    /* height: 900px; */
+    color:  white;
+}
+.input-form{
+    padding: 30px 20px;
+    text-align: center;
+    input{
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 10px;
+        height: 35px;
+        width: 500px;
+        vertical-align: middle;
+    }
+    textarea{
+        width: 455px;
+        margin: 10px;
+        border-radius: 5px;
+        vertical-align: middle;
+        resize: none;
+    }
+    .image-input{
+        border: none;
+        width: 440px;
+
+    }
+    .submit-button{
+        width: 100px;
+    }
+    .fullname{
+        color: black;
+    }
+}
+.greetings-wrapper{
+    text-align: center;
+}
+.greetings{
+    display: inline-block;
+    color: yellow;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.marks-table{
+    /* display: inline-block; */
+    text-align: center;
+    table{
+        width: 600px;
+        margin: auto; 
+    }
+    table,td{
+        border: 1px solid white;
+        border-collapse: collapse;
+    }
+}
+.error{
+    color: red;
+    font-size: 14px;
+    background-color: white;
+    /* padding: 5px; */
+}
