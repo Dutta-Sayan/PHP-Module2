@@ -1,16 +1,11 @@
 <?php
-$errMsg = "";
-$errNo = "";
-$errEmail = "";
-$greetings;
-$returnMsg;
-$validNo;
+
 if (isset($_POST["submit"])) {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
+    $fname = trim($_POST['fname']);
+    $lname = trim($_POST['lname']);
     $marks = $_POST['marks'];
-    $mobNo = $_POST['mobileNo'];
-    $email = strtolower($_POST['email']);
+    $mobNo = trim($_POST['mobileNo']);
+    $email = strtolower(trim($_POST['email']));
     $user = new User($fname, $lname, $mobNo, $email);
     $returnMsg = $user->isValid();
     $validNo = $user->isValidNumber();
@@ -19,30 +14,24 @@ if (isset($_POST["submit"])) {
         $errMsg = "*Only alphabets allowed";
     else if ($validNo == 1)
         $errNo= "*Not a valid Number";
-    else if (!empty($returnMsg) && !empty($validNo)){
+    else if (!empty($returnMsg) && !empty($validNo)) {
         $greetings = $returnMsg;
-        if (isset($_FILES["image"])){
+        if (isset($_FILES["image"])) {
             $imgPath = $user->isValidImage();
         }
         $marksArr = $user->processMarks($marks);
         $table = $user->createTable($marksArr);
     }
 }
-class User
-{
+class User {
     public $fname, $lname, $mobNo, $email;
-    public function __construct($fname, $lname, $mobNo, $email)
-    {
+    public function __construct($fname, $lname, $mobNo, $email) {
         $this->fname = $fname;
         $this->lname = $lname;
         $this->mobNo = $mobNo;
         $this->email = $email;
     }
-    public function isValid()
-    {
-        $this->fname =$this->test_input($this->fname);
-        $this->lname =$this->test_input($this->lname);
-        $greetings = "";
+    public function isValid() {
         if (!preg_match("/^[a-zA-Z ]+$/", $this->fname))
             return 1;
         else if (!preg_match("/^[a-zA-Z ]+$/", $this->lname))
@@ -52,8 +41,7 @@ class User
             return $greetings;
         }
     }
-    public function isValidImage()
-    {
+    public function isValidImage() {
         $file = $_FILES["image"];
         $targetDir = "uploads/";
         $target = $targetDir . basename($_FILES['image']['name']);
@@ -62,7 +50,7 @@ class User
             return $target;       
         }
     }
-    public function isValidNumber(){
+    public function isValidNumber() {
         if(!preg_match("/^(\+91)[0-9]{10}$/",$this->mobNo))
         {
             return 1;
@@ -71,8 +59,7 @@ class User
             return $this->mobNo;
         }
     }
-    public function isValidEmail(){
-        $this->email = $this->test_input($this->email);
+    public function isValidEmail() {
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $emailValidMsg = "*Email syntax is not valid";
         }
@@ -81,7 +68,7 @@ class User
         }
         return $emailValidMsg;
     }
-    public function processMarks($marks){
+    public function processMarks($marks) {
         $marksArr = explode("\n", $marks);
         $res=array();
         $j=0;
@@ -91,13 +78,13 @@ class User
         }
         return $res;
     }
-    public function createTable($marksArr){
+    public function createTable($marksArr) {
         if(count($marksArr) > 0) {
             $table = '<h3>Your Result</h3><br><table class="Result">';
             $table.= '<tr><th>'."Subject".'</th>'.'<th>'."Marks".'</th></tr>';
-            foreach($marksArr as $subjectrow){
+            foreach($marksArr as $subjectrow) {
                 $table.= '<tr>';
-                foreach($subjectrow as $res){
+                foreach($subjectrow as $res) {
                     $table.='<td>'.$res.'</td>';
                 }
                 $table.= '</tr>';
@@ -105,11 +92,6 @@ class User
             $table.= '</table>';
         }
         return $table;
-    }
-    public function test_input($data) {
-        $data = trim($data);
-        $data = htmlspecialchars($data);
-        return $data;
     }
 }
 ?>
@@ -144,7 +126,7 @@ class User
             </form>
             <div class="greetings-wrapper">
                 <span class="greetings">
-                    <?php echo $greetings; ?><br>
+                    <?php if(!empty($greetings)) echo $greetings; ?><br>
                     <img src="./<?php echo $imgPath?>" alt="">
                 </span>
             </div>
@@ -152,9 +134,9 @@ class User
                 <?php echo $table;?>
             </div>
             <span class="error">
-                <?php if ($errMsg != "")
+                <?php if (!empty($errMsg))
                     echo $errMsg; 
-                    if($errNo != "")
+                    if(!empty($errNo))
                     echo $errNo;
                     ?>
             </span>
