@@ -1,36 +1,29 @@
 <?php
-$errMsg = "";
-$greetings;
-$returnMsg;
+
 if (isset($_POST["submit"])) {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
+    $fname = trim($_POST['fname']);
+    $lname = trim($_POST['lname']);
     $marks = $_POST['marks'];
     $user = new User($fname, $lname);
     $returnMsg = $user->isValid();
     if ($returnMsg == 1)
         $errMsg = "*Only alphabets allowed";
-    else if (!empty($returnMsg)){
+    else if (!empty($returnMsg)) {
         $greetings = $returnMsg;
-        if (isset($_FILES["image"])){
+        if (isset($_FILES["image"])) {
             $imgPath = $user->isValidImage();
         }
         $marksArr = $user->processMarks($marks);
         $table = $user->createTable($marksArr);
     }
 }
-class User
-{
+class User {
     public $fname, $lname;
-    public function __construct($fname, $lname)
-    {
+    public function __construct($fname, $lname) {
         $this->fname = $fname;
         $this->lname = $lname;
     }
-    public function isValid()
-    {
-        $this->fname =$this->test_input($this->fname);
-        $this->lname =$this->test_input($this->lname);
+    public function isValid() {
         $greetings = "";
         if (!preg_match("/^[a-zA-Z ]+$/", $this->fname))
             return 1;
@@ -41,8 +34,7 @@ class User
             return $greetings;
         }
     }
-    public function isValidImage()
-    {
+    public function isValidImage() {
         $file = $_FILES["image"];
         $targetDir = "uploads/";
         $target = $targetDir . basename($_FILES['image']['name']);
@@ -51,7 +43,7 @@ class User
             return $target;       
         }
     }
-    public function processMarks($marks){
+    public function processMarks($marks) {
         $marksArr = explode("\n", $marks);
         $res=array();
         $j=0;
@@ -61,7 +53,7 @@ class User
         }
         return $res;
     }
-    public function createTable($marksArr){
+    public function createTable($marksArr) {
         if(count($marksArr) > 0) {
             $table = '<h3>Your Result</h3><br><table class="Result">';
             $table.= '<tr><th>'."Subject".'</th>'.'<th>'."Marks".'</th></tr>';
@@ -75,11 +67,6 @@ class User
             $table.= '</table>';
         }
         return $table;
-    }
-    public function test_input($data) {
-        $data = trim($data);
-        $data = htmlspecialchars($data);
-        return $data;
     }
 }
 ?>
@@ -111,7 +98,7 @@ class User
             </form>
             <div class="greetings-wrapper">
                 <span class="greetings">
-                    <?php echo $greetings; ?><br>
+                    <?php if (!empty($greetings)) echo $greetings; ?><br>
                     <img src="./<?php echo $imgPath?>" alt="">
                 </span>
             </div>
@@ -119,7 +106,7 @@ class User
                 <?php echo $table;?>
             </div>
             <span class="error">
-                <?php if ($errMsg != "")
+                <?php if (!empty($errMsg))
                     echo $errMsg; ?>
             </span>
         </div>
