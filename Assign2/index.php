@@ -56,10 +56,12 @@
             <div class="greetings-wrapper">
                 <span class="greetings">
                     <?php if (!empty($greetings)) echo $greetings; ?><br>
+                    <?php if (!empty($greetings)) echo $greetings; ?><br>
                     <img src="./<?php echo $imgPath?>" alt="">
                 </span>
             </div>
             <span class="error">
+                <?php if (!empty($errMsg))?>
                 <?php if (!empty($errMsg))
                     echo $errMsg; ?>
             </span>
