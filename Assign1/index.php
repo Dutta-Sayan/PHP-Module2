@@ -16,15 +16,16 @@
                 $ferrMsg = "*Only alphabets allowed";
             elseif ($returnMsg == $lname)
                 $lerrMsg = "*Only alphabets allowed";
-            else
+            else {
                 $greetings = $returnMsg;
+                $name = $fname." ".$lname;
+            }
         }
         else {
             $err = "Can't edit full name";
         }
     }  
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,28 +36,20 @@
     <style>
         <?php include 'style.css'; ?>
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
 </head>
 <body>
     <section class="user-details">
         <div class="container">
             <h2>USER DETAILS</h2>
             <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" class="input-form">
-                First Name: <input type="text" name="fname" placeholder="First Name" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
-                <span class="error">
-                    <?php if ($returnMsg == $fname) echo $ferrMsg; ?>
-                </span><br>
+                First Name: <input type="text" name="fname" placeholder="Enter only alphabets" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <span class="error"><?php echo $ferrMsg; ?></span><br>
 
-                Last Name: <input type="text" name="lname" placeholder="Last Name" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
-                <span class="error">
-                    <?php if ($returnMsg == $lname) echo $lerrMsg; ?>
-                </span><br>
+                Last Name: <input type="text" name="lname" placeholder="Enter only alphabets" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <span class="error"><?php echo $lerrMsg; ?></span><br>
 
-                Full Name: <input type="text" name="fullName" placeholder="Full Name" value ="<?php if ($greetings != "") echo $fname." ".$lname ?>" disabled><br>
-                <span class="error">
-                    <?php if (!empty($err)) echo $err; ?>
-                </span><br>
+                Full Name: <input type="text" name="fullName" placeholder="Full Name" value ="<?php echo $name ?>" disabled><br>
+                <span class="error"><?php echo $err; ?></span><br>
                 <input  class="submit-button" type="submit" name="submit" value="Submit"> 
             </form>
             <?php if (!empty($greetings)) { ?>
