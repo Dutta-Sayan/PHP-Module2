@@ -1,17 +1,15 @@
 <?php
-$errMsg = "";
-$greetings;
-$returnMsg;
+
 if (isset($_POST["submit"])) {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
+    $fname = trim($_POST['fname']);
+    $lname = trim($_POST['lname']);
     $user = new User($fname, $lname);
     $returnMsg = $user->isValid();
     if ($returnMsg == 1)
         $errMsg = "*Only alphabets allowed";
-    else if (!empty($returnMsg)){
+    else if (!empty($returnMsg)) {
         $greetings = $returnMsg;
-        if (isset($_FILES["image"])){
+        if (isset($_FILES["image"])) {
             $imgPath = $user->isValidImage();
         }
     }
@@ -19,16 +17,11 @@ if (isset($_POST["submit"])) {
 class User
 {
     public $fname, $lname;
-    public function __construct($fname, $lname)
-    {
+    public function __construct($fname, $lname) {
         $this->fname = $fname;
         $this->lname = $lname;
     }
-    public function isValid()
-    {
-        $this->fname =$this->test_input($this->fname);
-        $this->lname =$this->test_input($this->lname);
-        $greetings = "";
+    public function isValid() {
         if (!preg_match("/^[a-zA-Z ]+$/", $this->fname))
             return 1;
         else if (!preg_match("/^[a-zA-Z ]+$/", $this->lname))
@@ -47,11 +40,6 @@ class User
         if (move_uploaded_file($tempFileName, $target)) {
             return $target;       
         }
-    }
-    public function test_input($data) {
-        $data = trim($data);
-        $data = htmlspecialchars($data);
-        return $data;
     }
 }
 ?>
@@ -82,12 +70,12 @@ class User
             </form>
             <div class="greetings-wrapper">
                 <span class="greetings">
-                    <?php echo $greetings; ?><br>
+                    <?php if (!empty($greetings)) echo $greetings; ?><br>
                     <img src="./<?php echo $imgPath?>" alt="">
                 </span>
             </div>
             <span class="error">
-                <?php if ($errMsg != "")
+                <?php if (!empty($errMsg))
                     echo $errMsg; ?>
             </span>
         </div>
