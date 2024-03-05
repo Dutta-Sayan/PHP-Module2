@@ -15,9 +15,9 @@
     }
 }
 .user-details{
-    background-color: #13053c;
+    background-color: #32c6e0;
     height: 900px;
-    color:  white;
+    color:  rgb(0, 0, 0);
 }
 .input-form{
     padding: 30px 20px;
@@ -37,23 +37,19 @@
     }
     .submit-button{
         width: 100px;
+        cursor: pointer;
     }
     .fname{
         color: black;
     }
 }
-.greetings-wrapper{
-    text-align: center;
-}
 .greetings{
-    display: inline-block;
-    color: yellow;
+    color: rgb(8, 0, 255);
     font-size: 20px;
     text-align: center;
 }
 .error{
     color: red;
     font-size: 14px;
-    background-color: white;
-    /* padding: 5px; */
+    /* background-color: white; */
 }
