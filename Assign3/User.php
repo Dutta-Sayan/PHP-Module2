@@ -55,19 +55,19 @@
          */
         public function processMarks($marks) {
             $marksArr = explode("\n", $marks);
+            print_r($marksArr);
             $res = array();
             $j = 0;
             foreach ($marksArr as $i) {
                 $res[$j] = explode("|", $i);
                 $j++;
             }
-            $subPattern = "/[a-zA-Z]{10}/";
-            $marksPattern = "/[0-9]{3}/";
+            print_r($res);
+            $subPattern = "/[a-zA-Z]{1,10}/";
+            $marksPattern = "/[0-9]{0,3}/";
             foreach ($res as $i) {
-                foreach ($i as $value) {
                     if (!preg_match ($subPattern, $i[0]) || !preg_match ($marksPattern, $i[1]))
                         return 0;
-                }
             }
             return $res;
         }
