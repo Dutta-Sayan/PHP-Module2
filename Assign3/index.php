@@ -1,78 +1,48 @@
 <?php
 
-if (isset($_POST["submit"])) {
-    $fname = trim($_POST['fname']);
-    $lname = trim($_POST['lname']);
-    $marks = $_POST['marks'];
-    $user = new User($fname, $lname);
-    $returnMsg = $user->isValid();
-    if ($returnMsg == 1)
-        $errMsg = "*Only alphabets allowed";
-    else if (!empty($returnMsg)) {
-        $greetings = $returnMsg;
-        if (isset($_FILES["image"])) {
-            $imgPath = $user->isValidImage();
-        }
-        $marksArr = $user->processMarks($marks);
-        $table = $user->createTable($marksArr);
-    }
-}
-class User {
-    public $fname, $lname;
-    public function __construct($fname, $lname) {
-        $this->fname = $fname;
-        $this->lname = $lname;
-    }
-    public function isValid() {
-        $greetings = "";
-        if (!preg_match("/^[a-zA-Z ]+$/", $this->fname))
-            return 1;
-        else if (!preg_match("/^[a-zA-Z ]+$/", $this->lname))
-            return 1;
-        else {
-            $greetings = "Hello $this->fname $this->lname";
-            return $greetings;
-        }
-    }
-    public function isValidImage() {
-        $file = $_FILES["image"];
-        $targetDir = "uploads/";
-        $target = $targetDir . basename($_FILES['image']['name']);
-        $tempFileName = $_FILES['image']['tmp_name'];
-        if (move_uploaded_file($tempFileName, $target)) {
-            return $target;       
-        }
-    }
-    public function processMarks($marks) {
-        $marksArr = explode("\n", $marks);
-        $res=array();
-        $j=0;
-        foreach($marksArr as $i){
-            $res[$j] = explode("|",$i);
-            $j++;
-        }
-        return $res;
-    }
-    public function createTable($marksArr) {
-        if(count($marksArr) > 0) {
-            $table = '<h3>Your Result</h3><br><table class="Result">';
-            $table.= '<tr><th>'."Subject".'</th>'.'<th>'."Marks".'</th></tr>';
-            foreach($marksArr as $subjectrow){
-                $table.= '<tr>';
-                foreach($subjectrow as $res){
-                    $table.='<td>'.$res.'</td>';
+    include 'User.php';
+    if (isset($_POST["submit"])) {
+        // Variables 'fname' and 'lname' hold the first and last name.
+        $fname = trim($_POST['fname']);
+        $lname = trim($_POST['lname']);
+        $fullName = $_POST['fullName'];
+        $marks = $_POST['marks'];
+
+        if (empty($fullName)) {
+            // New object created.
+            $user = new User($fname, $lname);
+
+            // Variable 'returnMsg' stores the value determining if invalid entry is done in input fields.
+            $returnMsg = $user->isValid();
+            if ($returnMsg == $fname)
+                $ferrMsg = "*Only alphabets allowed";
+            else if ($returnMsg == $lname)
+                $lerrMsg = "*Only alphabets allowed";
+            else {
+                if (isset($_FILES["image"])) {
+                    $imgPath = $user->isValidImage();
                 }
-                $table.= '</tr>';
+                // Variable 'marksArr' stores a 2-D array containing subject name and marks
+                $marksArr = $user->processMarks($marks);
+                if ($marksArr == 0)
+                    $marksErr = "*Invalid format";
+                else
+                {
+                    $greetings = $returnMsg;
+                    $name = $fname." ".$lname;
+                    $table = $user->createTable($marksArr);
+                }
+                // The result to be displayed in table format is stored in 'table' variable.
             }
-            $table.= '</table>';
         }
-        return $table;
+        else {
+            $err = "Can't edit full name";
+        }
     }
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,37 +50,49 @@ class User {
     <style>
         <?php include 'style.css'; ?>
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script><?php include 'app.js'; ?></script>
 </head>
 
 <body>
     <section class="user-details">
         <div class="container">
             <h2>USER DETAILS</h2>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="input-form"enctype="multipart/form-data">
-                <label for="">First Name: </label><input type="text" name="fname" placeholder="First Name"><br>
-                <label for="">Last Name: </label><input type="text" name="lname" placeholder="Last Name"><br>
-                <label for="">Full Name: </label><input class="fullname" type="text" name="fullName" placeholder="Full Name"
-                    value="<?php if ($error != 1)echo $fname . " " . $lname ?>" disabled><br>
-                <label for="image">Upload your image </label><input class="image-input" type="file" name="image"><br>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="input-form" enctype="multipart/form-data">
+                
+                <!-- Input area for first name. -->
+                <label for="">First Name: </label><input type="text" class ="fname" name="fname" placeholder="Only alphabets allowed" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <span class="error ferror"><?php echo $ferrMsg; ?></span><br>
+
+                <!-- Input area for last name. -->
+                <label for="">Last Name: </label><input type="text" class="lname" name="lname" placeholder="Only alphabets allowed" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <span class="error lerror"><?php echo $lerrMsg; ?></span><br>
+
+                <!-- Area for displaying full name. -->
+                <label for="">Full Name: </label><input class="fullname" type="text" name="fullName" placeholder="Full Name" value="<?php echo $name ?>" disabled><br>
+                <span class="error fullErr"><?php echo $err; ?></span><br>
+
+                <!-- Input area for image upload and marks entry. -->
+                <label for="image">Upload your image </label><input class="image-input" type="file" name="image" accept="image/*" required><br>
                 <label for="marks">Enter your marks:</label>
-                <textarea name="marks" id="" cols="30" rows="3"></textarea><br>
+                <textarea name="marks" id="" cols="30" rows="3" placeholder="Enter in the format: Subject|Marks. Max marks can be 3 digits."></textarea><br>
+                <span class="error marksErr"><?php echo $marksErr; ?></span><br>
+            
                 <input class="submit-button" type="submit" name="submit" value="Submit">
             </form>
-            <div class="greetings-wrapper">
-                <span class="greetings">
-                    <?php if (!empty($greetings)) echo $greetings; ?><br>
+
+            <?php if (!empty($greetings)) { ?>
+                <div class="greetings">Hello
+                    <?php echo $greetings; ?>
+                    <div class="user-img">
                     <img src="./<?php echo $imgPath?>" alt="">
-                </span>
-            </div>
-            <div class="marks-table">
-                <?php echo $table;?>
-            </div>
-            <span class="error">
-                <?php if (!empty($errMsg))
-                    echo $errMsg; ?>
-            </span>
+                    </div>
+                    <div class="marks-table">
+                        <?php echo $table;?>
+                    </div>
+                </div> 
+            <?php }?>
         </div>
     </section>
 </body>
-
 </html>
