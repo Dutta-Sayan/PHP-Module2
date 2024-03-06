@@ -1,87 +1,51 @@
 <?php
 
-if (isset($_POST["submit"])) {
-    $fname = trim($_POST['fname']);
-    $lname = trim($_POST['lname']);
-    $marks = $_POST['marks'];
-    $mobNo = trim($_POST['mobileNo']);
-    $user = new User($fname, $lname, $mobNo);
-    $returnMsg = $user->isValid();
-    $validNo = $user->isValidNumber();
-    if ($returnMsg == 1)
-        $errMsg = "*Only alphabets allowed";
-    else if ($validNo == 1)
-        $errNo= "*Not a valid Number";
-    else if (!empty($returnMsg) && !empty($validNo)) {
-        $greetings = $returnMsg;
-        if (isset($_FILES["image"])) {
-            $imgPath = $user->isValidImage();
-        }
-        $marksArr = $user->processMarks($marks);
-        $table = $user->createTable($marksArr);
-    }
-}
-class User {
-    public $fname, $lname, $mobNo;
-    public function __construct($fname, $lname, $mobNo) {
-        $this->fname = $fname;
-        $this->lname = $lname;
-        $this->mobNo = $mobNo;
-    }
-    public function isValid() {
-        $greetings = "";
-        if (!preg_match("/^[a-zA-Z ]+$/", $this->fname))
-            return 1;
-        else if (!preg_match("/^[a-zA-Z ]+$/", $this->lname))
-            return 1;
-        else {
-            $greetings = "Hello $this->fname $this->lname";
-            return $greetings;
-        }
-    }
-    public function isValidImage() {
-        $file = $_FILES["image"];
-        $targetDir = "uploads/";
-        $target = $targetDir . basename($_FILES['image']['name']);
-        $tempFileName = $_FILES['image']['tmp_name'];
-        if (move_uploaded_file($tempFileName, $target)) {
-            return $target;       
-        }
-    }
-    public function isValidNumber() {
-        if (!preg_match("/^(\+91)[0-9]{10}$/",$this->mobNo)) {
-            return 1;
-        }
-        else {
-            return $this->mobNo;
-        }
-    }
-    public function processMarks($marks) {
-        $marksArr = explode("\n", $marks);
-        $res=array();
-        $j=0;
-        foreach($marksArr as $i){
-            $res[$j] = explode("|",$i);
-            $j++;
-        }
-        return $res;
-    }
-    public function createTable($marksArr) {
-        if(count($marksArr) > 0) {
-            $table = '<h3>Your Result</h3><br><table class="Result">';
-            $table.= '<tr><th>'."Subject".'</th>'.'<th>'."Marks".'</th></tr>';
-            foreach($marksArr as $subjectrow) {
-                $table.= '<tr>';
-                foreach($subjectrow as $res) {
-                    $table.='<td>'.$res.'</td>';
+    include 'User.php';
+    if (isset($_POST["submit"])) {
+
+        // Variables 'fname' and 'lname' hold the first and last name.
+        $fname = trim($_POST['fname']);
+        $lname = trim($_POST['lname']);
+        $fullName = $_POST['fullName'];
+
+        // Variables 'marks' and 'mobNo' hold the subject-marks and mobile number respectively as string. 
+        $marks = $_POST['marks'];
+        $mobNo = trim($_POST['mobileNo']);
+
+        if(empty($fullName)){
+            // New object created.
+            $user = new User($fname, $lname, $mobNo);
+
+            // Variable 'returnMsg' stores the value determining if invalid entry is done in input fields.
+            $returnMsg = $user->isValid();
+            $validNo = $user->isValidNumber();
+            if ($returnMsg == $fname)
+                $ferrMsg = "*Only alphabets allowed";
+            else if($returnMsg == $lname)
+                $lerrMsg = "*Only alphabets allowed";
+            else if ($validNo == 1)
+                $numErr= "*Not a valid Number";
+            else {
+                if (isset($_FILES["image"])) {
+                    $imgPath = $user->isValidImage();
                 }
-                $table.= '</tr>';
+                // Variable 'marksArr' stores a 2-D array containing subject name and marks
+                $marksArr = $user->processMarks($marks);
+                print_r($marksArr);
+                if ($marksArr == 0)
+                    $marksErr = "*Invalid format";
+                else {
+                    $greetings = $returnMsg;
+                    $name = $fname." ".$lname;
+                    // The result to be displayed in table format is stored in 'table' variable.
+                    $table = $user->createTable($marksArr);
+                }
             }
-            $table.= '</table>';
         }
-        return $table;
+        else {
+            $err = "Can't edit full name";
+        }
     }
-}
 ?>
 
 
@@ -95,6 +59,8 @@ class User {
     <style>
         <?php include 'style.css'; ?>
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script><?php include 'app.js'; ?></script>
 </head>
 
 <body>
@@ -102,32 +68,39 @@ class User {
         <div class="container">
             <h2>USER DETAILS</h2>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="input-form"enctype="multipart/form-data">
-                <label for="">First Name: </label><input type="text" name="fname" placeholder="First Name"><br>
-                <label for="">Last Name: </label><input type="text" name="lname" placeholder="Last Name"><br>
-                <label for="">Full Name: </label><input class="fullname" type="text" name="fullName" placeholder="Full Name"
-                    value="<?php if ($error != 1)echo $fname . " " . $lname ?>" disabled><br>
-                <label for="image">Upload your image </label><input class="image-input" type="file" name="image"><br>
+                <!-- Input area for first name. -->
+                <label for="">First Name: </label><input type="text" class ="fname" name="fname" placeholder="Only alphabets allowed" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <span class="error ferror"><?php echo $ferrMsg; ?></span><br>
+
+                <!-- Input area for last name. -->
+                <label for="">Last Name: </label><input type="text" class="lname" name="lname" placeholder="Only alphabets allowed" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <span class="error lerror"><?php echo $lerrMsg; ?></span><br>
+
+                <!-- Area for displaying full name. -->
+                <label for="">Full Name: </label><input class="fullname" type="text" name="fullName" placeholder="Full Name" value="<?php echo $name ?>" disabled><br>
+                <span class="error fullErr"><?php echo $err; ?></span><br>
+
+                <!-- Input area for image upload and marks entry. -->
+                <label for="image">Upload your image </label><input class="image-input" type="file" name="image" accept="image/*" required><br>
                 <label for="marks">Enter your marks:</label>
-                <textarea name="marks" id="" cols="30" rows="3"></textarea><br>
+                <textarea name="marks" id="" cols="30" rows="3" placeholder="Enter in the format: Subject|Marks. Max marks can be 3 digits."></textarea><br>
+                <span class="error marksErr"><?php echo $marksErr; ?></span><br>
+            
                 <label for="mobileNo">Mobile: </label><input type="text" name="mobileNo" placeholder="Mobile Number"><br>
+                <span class="error numErr"><?php echo $numErr; ?></span><br>
                 <input class="submit-button" type="submit" name="submit" value="Submit">
             </form>
-            <div class="greetings-wrapper">
-                <span class="greetings">
-                    <?php if (!empty($greetings)) echo $greetings; ?><br>
+            <?php if (!empty($greetings)) { ?>
+                <div class="greetings">Hello
+                    <?php echo $greetings; ?>
+                    <div class="user-img">
                     <img src="./<?php echo $imgPath?>" alt="">
-                </span>
-            </div>
-            <div class="marks-table">
-                <?php echo $table;?>
-            </div>
-            <span class="error">
-                <?php if (!empty($errMsg))
-                    echo $errMsg; 
-                    if (!empty($errNo))
-                    echo $errNo;
-                    ?>
-            </span>
+                    </div>
+                    <div class="marks-table">
+                        <?php echo $table;?>
+                    </div>
+                </div> 
+            <?php }?>
         </div>
     </section>
 </body>
