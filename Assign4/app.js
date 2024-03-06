@@ -9,12 +9,17 @@ $(document).ready(function(){
         let fname = $(".fname").val();
         let lname = $(".lname").val();
         let fullName = $(".fullname").val();
+        let mobile = $(".mob").val();
         if (fname.length == 0) {
             $(".ferror").text("Can't be empty!");
             errStatus = false;
         }
         else if (lname.length == 0) {
             $(".lerror").text("Can't be empty!");
+            errStatus = false;
+        }
+        else if(!mobile.match(/(^(\+91)[0-9]{10}$)/)) {
+            $(".numErr").text("*Invalid number!");
             errStatus = false;
         }
         if (errStatus == false) {

@@ -49,6 +49,11 @@
                 return "";
         }
 
+        /**
+         * Checks if the number is valid or not.
+         * The number must be an Indian mobile number.
+         * @return mixed returns 1 in case of invalid number and the number as string if valid.
+         */
         public function isValidNumber() {
             if (!preg_match("/^(\+91)[0-9]{10}$/",$this->mobNo)) {
                 return 1;
@@ -61,7 +66,7 @@
         /**
          * Takes the marks input and breaks it down and stores in an array.
          * Each array value contains two fields (subject, marks).
-         * @return mixed 'res' containing each subject's name and marks.
+         * @return mixed 'res' containing each subject's name and marks and 0 on invalid entry.
          */
         public function processMarks($marks) {
             $marksArr = explode("\n", $marks);
@@ -71,16 +76,21 @@
                 $res[$j] = explode("|", $i);
                 $j++;
             }
-            $subPattern = "/[a-zA-Z]{10}/";
-            $marksPattern = "/[0-9]{3}/";
+            $subPattern = "/[a-zA-Z]{1,10}/";
+            $marksPattern = "/[0-9]{1,3}/";
             foreach ($res as $i) {
-                print_r($i[0]);
-                print_r($i[1]);
                 if (!preg_match ($subPattern, $i[0]) || !preg_match ($marksPattern, $i[1]))
                     return 0;
             }
             return $res;
         }
+
+        /**
+         * Creates an html table from the marks input.
+         * The table contains two columns containing subject name and marks.
+         * @param $marksArr contains the string of subject name and marks.
+         * @return string containing the html table
+         */
         public function createTable($marksArr) {
             if(count($marksArr) > 0) {
                 $table = '<h3>Your Result</h3><br><table class="Result">';

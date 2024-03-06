@@ -31,7 +31,6 @@
                 }
                 // Variable 'marksArr' stores a 2-D array containing subject name and marks
                 $marksArr = $user->processMarks($marks);
-                print_r($marksArr);
                 if ($marksArr == 0)
                     $marksErr = "*Invalid format";
                 else {
@@ -86,8 +85,10 @@
                 <textarea name="marks" id="" cols="30" rows="3" placeholder="Enter in the format: Subject|Marks. Max marks can be 3 digits."></textarea><br>
                 <span class="error marksErr"><?php echo $marksErr; ?></span><br>
             
-                <label for="mobileNo">Mobile: </label><input type="text" name="mobileNo" placeholder="Mobile Number"><br>
+                <!-- Input area for mobile number. -->
+                <label for="mobileNo">Mobile: </label><input type="text" class="mob" name="mobileNo" placeholder="Mobile Number" value="<?php echo $mobNo; ?>"><br>
                 <span class="error numErr"><?php echo $numErr; ?></span><br>
+                
                 <input class="submit-button" type="submit" name="submit" value="Submit">
             </form>
             <?php if (!empty($greetings)) { ?>
