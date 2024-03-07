@@ -77,9 +77,26 @@
             if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
                 return 0;
             }
+            return 1;
+            /*
             else{
-                return 1;
+                $api_key = "038c427c27d1417397129856c0f90f04";
+                $ch = curl_init();
+                curl_setopt_array($ch,[
+                    CURLOPT_URL => "https://emailvalidation.abstractapi.com/v1/?api_key=$api_key&email=$this->email",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_FOLLOWLOCATION => true
+                ]);
+                $result = curl_exec($ch);
+                curl_close($ch);
+
+                $data = json_decode($result,true);
+                if ($data['deliverability'] === "DELIVERABLE")
+                    return 1;
+                else
+                    return 0;
             }
+            */
         }
         /**
          * Takes the marks input and breaks it down and stores in an array.
