@@ -69,7 +69,14 @@
          * @return mixed 'res' containing each subject's name and marks and 0 on invalid entry.
          */
         public function processMarks($marks) {
+            $pattern = "/^[ ]*[a-zA-Z]+[ ]{0,1}[a-zA-Z]*[|][0-9]{1,3}[ ]*$/";
             $marksArr = explode("\n", $marks);
+            for ($i = 0; $i < count($marksArr); $i++) {
+                $marksArr[$i] = trim($marksArr[$i]);
+                if (!preg_match($pattern, $marksArr[$i])) {
+                    return 0;
+                }
+            }
             $res = array();
             $j = 0;
             foreach ($marksArr as $i) {
