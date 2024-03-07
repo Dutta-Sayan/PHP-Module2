@@ -59,14 +59,13 @@
     text-align: center;
 }
 .greetings{
-    display: inline-block;
     color: yellow;
     font-size: 20px;
     text-align: center;
     margin-bottom: 20px;
+    padding-block: 40px;
 }
 .marks-table{
-    /* display: inline-block; */
     padding-block: 10px;
     text-align: center;
     table{
@@ -84,5 +83,4 @@
     color: red;
     font-size: 14px;
     background-color: white;
-    /* padding: 5px; */
 }
