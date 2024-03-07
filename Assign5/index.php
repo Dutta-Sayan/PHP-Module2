@@ -30,9 +30,9 @@
             else if($returnMsg == $lname)
                 $lerrMsg = "*Only alphabets allowed";
             else if ($validNo == 1)
-                $numErr= "*Not a valid Number";
+                $numErr = "*Not a valid Number";
             else if ($validEmail == 0)
-                $emailErr = "*Email syntax is not valid";
+                $emailErr = "*Email is not valid";
             else {
                 if (isset($_FILES["image"])) {
                     $imgPath = $user->isValidImage();
