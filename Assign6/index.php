@@ -45,7 +45,7 @@
                     $name = $fname." ".$lname;
                     // The result to be displayed in table format is stored in 'table' variable.
                     $table = $user->createTable($marksArr);
-                    $user->createPdf($marksArr);
+                    $user->createPdf($marksArr, $imgPath);
                 }
             }
         }
@@ -117,3 +117,12 @@
 </body>
 
 </html>
+
+<?php
+    // if(empty($marksErr)){
+    //     $user->createPdf($marksArr, $imgPath);
+    //     header('Content-type: "application/octet-stream"');
+    //     header('Content-Disposition: attachment; filename="this.pdf"');
+    //     header("Content-Transfer-Encoding: binary");
+    // }
+?>

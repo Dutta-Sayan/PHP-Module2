@@ -161,26 +161,32 @@
          * 
          * @param $marksArr is used to access the 2D array consisting of subject and marks. 
          */
-        public function createPdf($marksArr) {
+        public function createPdf($marksArr, $imgPath) {
             $pdf = new Fpdf();
             $pdf->AddPage();
             $pdf->SetFont('Arial', 'B', 18);
             $pdf->Cell(0,10,"USER DETAILS",0,1,'C');
+            $pdf->Image("$imgPath");
             $pdf->SetFont('Arial', 'B', 12);
             $pdf->Cell(0,10,"Name: $this->fname $this->lname",0,1,'L');
             $pdf->Cell(0,10,"Mobile No.: $this->mobNo",0,1,'L');
             $pdf->Cell(0,10,"Email: $this->email",0,1,'L');
             $pdf->SetFont('Arial', 'B', 14);
-            $pdf->Cell(50,10,"SUBJECT",1,0,'L');
-            $pdf->Cell(50,10,"MARKS",1,1,'L');
+            $pdf->Cell(80,10,"SUBJECT",1,0,'C');
+            $pdf->Cell(80,10,"MARKS",1,1,'C');
+            $pdf->SetFont('Arial', 'B', 11);
             for ($i = 0; $i < count($marksArr); $i++) {
                 for ($j = 0; $j < count($marksArr[$i]); $j++) {
-                    $pdf->Cell(50,10, $marksArr[$i][$j],1,0,'L');
+                    $pdf->Cell(80,10, $marksArr[$i][$j],1,0,'C');
                 }
                 $pdf->Ln();
             }
+            // $pdf->Output();
+            // echo 
             $pdf->Output("F","uploads/this.pdf");
+            // echo "1";
             $pdf->Output("D","this.pdf");
+            
         }
     }
 ?>
