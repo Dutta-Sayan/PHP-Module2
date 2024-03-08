@@ -1,5 +1,7 @@
 <?php
 
+    use Fpdf\Fpdf;
+    require('vendor/autoload.php');
     /**
      * This class validates the input given by user.
      * 
@@ -77,26 +79,26 @@
             if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
                 return 0;
             }
-            return 1;
-            /*
             else{
-                $api_key = "038c427c27d1417397129856c0f90f04";
-                $ch = curl_init();
-                curl_setopt_array($ch,[
-                    CURLOPT_URL => "https://emailvalidation.abstractapi.com/v1/?api_key=$api_key&email=$this->email",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_FOLLOWLOCATION => true
-                ]);
-                $result = curl_exec($ch);
-                curl_close($ch);
+                return 1;
+                // $api_key = "038c427c27d1417397129856c0f90f04";
+                // $ch = curl_init();
+                // curl_setopt_array($ch,[
+                //     CURLOPT_URL => "https://emailvalidation.abstractapi.com/v1/?api_key=$api_key&email=$this->email",
+                //     CURLOPT_RETURNTRANSFER => true,
+                //     CURLOPT_FOLLOWLOCATION => true
+                // ]);
+                // $result = curl_exec($ch);
+                // curl_close($ch);
 
-                $data = json_decode($result,true);
-                if ($data['deliverability'] === "DELIVERABLE")
-                    return 1;
-                else
-                    return 0;
+                // $data = json_decode($result, true);
+                // if ($data['deliverability'] === "DELIVERABLE")
+                // // && $data['is_valid_format'] === true && $data['is_free_email'] === true
+                // // && $data['is_disposable_email'] === false)
+                //     return 1;
+                // else
+                //     return 0;
             }
-            */
         }
         /**
          * Takes the marks input and breaks it down and stores in an array.
@@ -123,8 +125,9 @@
             $subPattern = "/[a-zA-Z]{1,10}/";
             $marksPattern = "/[0-9]{1,3}/";
             foreach ($res as $i) {
-                if (!preg_match ($subPattern, $i[0]) || !preg_match ($marksPattern, $i[1]))
+                if (!preg_match ($subPattern, $i[0]) || !preg_match ($marksPattern, $i[1])) {
                     return 0;
+                }
             }
             return $res;
         }
@@ -149,6 +152,35 @@
                 $table .= '</table>';
             }
             return $table;
+        }
+
+        /**
+         * Using FPDF package to create a pdf file of the information submitted by user.
+         * It creates two copies, one is stored on the server and the other is downloaded in the client's machine.
+         * Pdf document will only be created after successful validation of all the inputs
+         * 
+         * @param $marksArr is used to access the 2D array consisting of subject and marks. 
+         */
+        public function createPdf($marksArr) {
+            $pdf = new Fpdf();
+            $pdf->AddPage();
+            $pdf->SetFont('Arial', 'B', 18);
+            $pdf->Cell(0,10,"USER DETAILS",0,1,'C');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(0,10,"Name: $this->fname $this->lname",0,1,'L');
+            $pdf->Cell(0,10,"Mobile No.: $this->mobNo",0,1,'L');
+            $pdf->Cell(0,10,"Email: $this->email",0,1,'L');
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->Cell(50,10,"SUBJECT",1,0,'L');
+            $pdf->Cell(50,10,"MARKS",1,1,'L');
+            for ($i = 0; $i < count($marksArr); $i++) {
+                for ($j = 0; $j < count($marksArr[$i]); $j++) {
+                    $pdf->Cell(50,10, $marksArr[$i][$j],1,0,'L');
+                }
+                $pdf->Ln();
+            }
+            $pdf->Output("F","uploads/this.pdf");
+            $pdf->Output("D","this.pdf");
         }
     }
 ?>

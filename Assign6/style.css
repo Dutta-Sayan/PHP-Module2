@@ -54,9 +54,8 @@
         color: black;
     }
 }
-.greetings-wrapper{
-    margin-top: 50px;
-    text-align: center;
+.validity{
+    color: rgb(191, 255, 0);
 }
 .greetings{
     color: yellow;

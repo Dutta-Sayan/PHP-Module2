@@ -12,12 +12,11 @@
         $fullName = $_POST['fullName'];
 
         // Variables 'marks' and 'mobNo' hold the subject-marks and mobile number respectively as string. 
-        $marks = $_POST['marks'];
+        $marks = trim($_POST['marks']);
         $mobNo = trim($_POST['mobileNo']);
         $email = strtolower(trim($_POST['email']));
 
         if(empty($fullName)){
-
             // New object created.
             $user = new User($fname, $lname, $mobNo, $email);
             // Variable 'returnMsg' stores the value determining if invalid entry is done in input fields.
@@ -33,6 +32,7 @@
             else if ($validEmail == 0)
                 $emailErr = "*Email is not valid";
             else {
+                $Validity= "Valid";
                 if (isset($_FILES["image"])) {
                     $imgPath = $user->isValidImage();
                 }
@@ -45,12 +45,12 @@
                     $name = $fname." ".$lname;
                     // The result to be displayed in table format is stored in 'table' variable.
                     $table = $user->createTable($marksArr);
+                    $user->createPdf($marksArr);
                 }
             }
         }
-        else {
+        else
             $err = "Can't edit full name";
-        }
     }
 
 
@@ -96,7 +96,7 @@
                 <!-- Input area for mobile number and email. -->
                 <label for="mobileNo">Mobile: </label><input type="text" name="mobileNo" class="mob" placeholder="Mobile Number" value="<?php echo $mobNo; ?>"><br>
                 <span class="error numErr"><?php echo $numErr; ?></span><br>
-                <label for="email">Email Address: </label><input type="email" name="email" placeholder="Enter your Email" value="<?php echo $email; ?>"><br>
+                <label for="email">Email Address: </label><input type="email" name="email" placeholder="Enter your Email" value="<?php echo $email; ?>"><span class="validity"><?php echo $Validity?></span><br>
                 <span class="error emailErr"><?php echo $emailErr; ?></span><br>
 
                 <input class="submit-button" type="submit" name="submit" value="Submit">
