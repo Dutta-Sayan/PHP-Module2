@@ -1,5 +1,7 @@
 <?php
 
+    // error_reporting(E_ALL);
+    // ini_set('display_errors', 1);
     use Fpdf\Fpdf;
     require('vendor/autoload.php');
     /**
@@ -50,10 +52,14 @@
             $targetDir = "uploads/";
             $target = $targetDir . basename($_FILES['image']['name']);
             $tempFileName = $_FILES['image']['tmp_name'];
+            $imageFileType = strtolower(pathinfo($target, PATHINFO_EXTENSION));
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                return "";
+            }
             if (move_uploaded_file($tempFileName, $target)) {
                 return $target;       
             }
-            else 
+            else
                 return "";
         }
 
@@ -80,24 +86,22 @@
                 return 0;
             }
             else{
-                return 1;
-                // $api_key = "038c427c27d1417397129856c0f90f04";
-                // $ch = curl_init();
-                // curl_setopt_array($ch,[
-                //     CURLOPT_URL => "https://emailvalidation.abstractapi.com/v1/?api_key=$api_key&email=$this->email",
-                //     CURLOPT_RETURNTRANSFER => true,
-                //     CURLOPT_FOLLOWLOCATION => true
-                // ]);
-                // $result = curl_exec($ch);
-                // curl_close($ch);
+                // return 1;
+                $api_key = "038c427c27d1417397129856c0f90f04";
+                $ch = curl_init();
+                curl_setopt_array($ch,[
+                    CURLOPT_URL => "https://emailvalidation.abstractapi.com/v1/?api_key=$api_key&email=$this->email",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_FOLLOWLOCATION => true
+                ]);
+                $result = curl_exec($ch);
+                curl_close($ch);
 
-                // $data = json_decode($result, true);
-                // if ($data['deliverability'] === "DELIVERABLE")
-                // // && $data['is_valid_format'] === true && $data['is_free_email'] === true
-                // // && $data['is_disposable_email'] === false)
-                //     return 1;
-                // else
-                //     return 0;
+                $data = json_decode($result, true);
+                if ($data['deliverability'] === "DELIVERABLE")
+                    return 1;
+                else
+                    return 0;
             }
         }
         /**
@@ -159,7 +163,9 @@
          * It creates two copies, one is stored on the server and the other is downloaded in the client's machine.
          * Pdf document will only be created after successful validation of all the inputs
          * 
-         * @param $marksArr is used to access the 2D array consisting of subject and marks. 
+         * @param mixed 
+         * $marksArr is used to access the 2D array consisting of subject and marks.
+         * $imgPath contains the path of the image
          */
         public function createPdf($marksArr, $imgPath) {
             $pdf = new Fpdf();
@@ -181,11 +187,8 @@
                 }
                 $pdf->Ln();
             }
-            // $pdf->Output();
-            // echo 
-            $pdf->Output("F","uploads/this.pdf");
-            // echo "1";
-            $pdf->Output("D","this.pdf");
+            $pdf->Output();
+            $pdf->Output('uploads/details.pdf', 'F');
             
         }
     }

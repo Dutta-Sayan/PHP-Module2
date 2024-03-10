@@ -17,7 +17,6 @@
 }
 .user-details{
     background-color: #13053c;
-    /* height: 900px; */
     color:  white;
 }
 .input-form{
@@ -84,5 +83,4 @@
 .error{
     color: red;
     font-size: 14px;
-    background-color: white;
 }
