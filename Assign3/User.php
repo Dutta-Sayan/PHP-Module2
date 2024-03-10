@@ -41,10 +41,14 @@
             $targetDir = "uploads/";
             $target = $targetDir . basename($_FILES['image']['name']);
             $tempFileName = $_FILES['image']['tmp_name'];
+            $imageFileType = strtolower(pathinfo($target, PATHINFO_EXTENSION));
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                return "";
+            }
             if (move_uploaded_file($tempFileName, $target)) {
                 return $target;       
             }
-            else 
+            else
                 return "";
         }
 

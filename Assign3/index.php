@@ -21,18 +21,22 @@
             else {
                 if (isset($_FILES["image"])) {
                     $imgPath = $user->isValidImage();
-                }
-                // Variable 'marksArr' stores a 2-D array containing subject name and marks
-                $marksArr = $user->processMarks($marks);
-                if ($marksArr == 0)
-                    $marksErr = "*Invalid format";
-                else
-                {
-                    $greetings = $returnMsg;
-                    $name = $fname." ".$lname;
-                    $table = $user->createTable($marksArr);
-                }
-                // The result to be displayed in table format is stored in 'table' variable.
+                    if ($imgPath == "") {
+                        $imgErr = "Not a valid image!";
+                    }
+                    else {
+                        // Variable 'marksArr' stores a 2-D array containing subject name and marks
+                        $marksArr = $user->processMarks($marks);
+                        if ($marksArr == 0)
+                            $marksErr = "*Invalid format";
+                        else {
+                            $greetings = $returnMsg;
+                            $name = $fname." ".$lname;
+                            // The result to be displayed in table format is stored in 'table' variable.
+                            $table = $user->createTable($marksArr);
+                        }
+                    }
+                }    
             }
         }
         else {
@@ -74,6 +78,7 @@
 
                 <!-- Input area for image upload and marks entry. -->
                 <label for="image">Upload your image </label><input class="image-input" type="file" name="image" accept="image/*" required><br>
+                <span class="error"><?php echo $imgErr; ?></span><br>
                 <label for="marks">Enter your marks:</label>
                 <textarea name="marks" id="" cols="30" rows="3" placeholder="Enter in the format: Subject|Marks. Max marks can be 3 digits."></textarea><br>
                 <span class="error marksErr"><?php echo $marksErr; ?></span><br>
