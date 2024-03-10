@@ -17,10 +17,15 @@
             else if ($returnMsg == $lname)
                 $lerrMsg = "*Only alphabets allowed";
             else {
-                $greetings = $returnMsg;
-                $name = $fname." ".$lname;
                 if (isset($_FILES["image"])) {
                     $imgPath = $user->isValidImage();
+                    if ($imgPath == "") {
+                        $imgErr = "Not a valid image!";
+                    }
+                    else {
+                        $greetings = $returnMsg;
+                        $name = $fname." ".$lname;
+                    }
                 }
             }
         }
@@ -28,7 +33,6 @@
             $err = "Can't edit full name";
         }
     }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +44,8 @@
     <style>
         <?php include 'style.css'; ?>
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script><?php include 'app.js'; ?></script>
 </head>
 
 <body>
@@ -47,16 +53,17 @@
         <div class="container">
             <h2>USER DETAILS</h2>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="input-form"enctype="multipart/form-data">
-                First Name: <input type="text" name="fname" placeholder="Only alphabets allowed" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
-                <span class="error"><?php echo $ferrMsg; ?></span><br>
+                First Name: <input class="fname" type="text" name="fname" placeholder="Only alphabets allowed" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <span class="error ferror"><?php echo $ferrMsg; ?></span><br>
 
-                Last Name: <input type="text" name="lname" placeholder="Only alphabets allowed" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
-                <span class="error"><?php echo $lerrMsg; ?></span><br>
+                Last Name: <input class="lname" type="text" name="lname" placeholder="Only alphabets allowed" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <span class="error lerror"><?php echo $lerrMsg; ?></span><br>
 
-                Full Name: <input class="fname" type="text" name="fullName" placeholder="Full Name" value="<?php echo $name ?>" disabled><br>
+                Full Name: <input class="fullname" type="text" name="fullName" placeholder="Full Name" value="<?php echo $name ?>" disabled><br>
                 <span class="error"><?php echo $err; ?></span><br>
 
                 Upload your image <input class="image-input" type="file" name="image" accept="image/*" required><br>
+                <span class="error"><?php echo $imgErr; ?></span><br>
                 <input class="submit-button" type="submit" name="submit" value="Submit">
             </form>
 
