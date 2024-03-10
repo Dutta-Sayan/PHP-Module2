@@ -48,10 +48,14 @@
             $targetDir = "uploads/";
             $target = $targetDir . basename($_FILES['image']['name']);
             $tempFileName = $_FILES['image']['tmp_name'];
+            $imageFileType = strtolower(pathinfo($target, PATHINFO_EXTENSION));
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                return "";
+            }
             if (move_uploaded_file($tempFileName, $target)) {
                 return $target;       
             }
-            else 
+            else
                 return "";
         }
 
@@ -77,8 +81,8 @@
             if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
                 return 0;
             }
-            return 1;
-            /*
+            //return 1;
+            
             else{
                 $api_key = "038c427c27d1417397129856c0f90f04";
                 $ch = curl_init();
@@ -96,7 +100,7 @@
                 else
                     return 0;
             }
-            */
+            
         }
         /**
          * Takes the marks input and breaks it down and stores in an array.

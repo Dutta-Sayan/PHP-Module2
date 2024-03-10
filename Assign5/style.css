@@ -82,8 +82,10 @@
         padding: 10px;
     }
 }
+.validity{
+    color: greenyellow;
+}
 .error{
     color: red;
     font-size: 14px;
-    background-color: white;
 }
