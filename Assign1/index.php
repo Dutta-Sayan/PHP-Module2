@@ -36,19 +36,21 @@
     <style>
         <?php include 'style.css'; ?>
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script><?php include 'app.js'; ?></script>
 </head>
 <body>
     <section class="user-details">
         <div class="container">
             <h2>USER DETAILS</h2>
             <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" class="input-form">
-                First Name: <input type="text" name="fname" placeholder="Enter only alphabets" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
-                <span class="error"><?php echo $ferrMsg; ?></span><br>
+                First Name: <input class ="fname" type="text" name="fname" placeholder="Enter only alphabets" value="<?php echo $fname?>" maxlength=25><br>
+                <span class="error ferror"><?php echo $ferrMsg; ?></span><br>
 
-                Last Name: <input type="text" name="lname" placeholder="Enter only alphabets" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
-                <span class="error"><?php echo $lerrMsg; ?></span><br>
+                Last Name: <input class ="lname" type="text" name="lname" placeholder="Enter only alphabets" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <span class="error lerror"><?php echo $lerrMsg; ?></span><br>
 
-                Full Name: <input type="text" name="fullName" placeholder="Full Name" value ="<?php echo $name ?>" disabled><br>
+                Full Name: <input class ="fullname" type="text" name="fullName" placeholder="Full Name" value ="<?php echo $name ?>" disabled><br>
                 <span class="error"><?php echo $err; ?></span><br>
                 <input  class="submit-button" type="submit" name="submit" value="Submit"> 
             </form>
