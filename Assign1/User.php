@@ -3,9 +3,9 @@
     /**
      * This class validates the input given by user.
      * 
-     * param type: string
+     * @param string
      * 
-     * return type: object
+     * @return object
      */
     class User {
         public string $fname, $lname;
@@ -13,7 +13,8 @@
         /**
          * Class contructor which initializes the fname and lname variables.
          * 
-         * param type: string
+         * @param string
+         * 
          */
         public function __construct(string $fname, string $lname) {
             $this->fname = $fname;
@@ -23,9 +24,9 @@
         /**
          * Checks if the input name follows the general naming pattern.
          * 
-         * param type: No parameter is passed.
+         * @param: No parameter is passed.
          * 
-         * return type: String.
+         * @return string.
          */
         public function isValid() {
             $pattern = "/^[a-zA-Z]+$/";
