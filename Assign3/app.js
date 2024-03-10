@@ -4,7 +4,7 @@
  */
 $(document).ready(function(){
     $(".input-form").submit(function(e){
-        // To store the status if 'fname' or 'lname' is found empty, 'errStatus' is used 
+        // To store the status if 'fname' or 'lname' is found empty, 'errStatus' is used.
         let errStatus = true;
         let fname = $(".fname").val();
         let lname = $(".lname").val();
