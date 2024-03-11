@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+.container{
+    width: 1200px;
+    margin: auto;
+    h3{
+        margin-top: 5px;
+    }
+}
+.questions{
+    a{
+        display: inline-block;
+        padding: 5px;
+        color: white;
+    }
+    color:white;
+    list-style-position: inside;
+    list-style-type:circle;
+    li{
+        background: linear-gradient(rgb(110, 110, 119), rgb(82, 58, 58));
+        margin-block: 2px;
+        padding-block: 5px;
+    }
+}
+.question{
+    padding: 10px;
+    margin-bottom: 5px;
+}
+.login{
+    display: flex;
+    justify-content: center;
+}
+.login-form{
+    h3{
+        margin-bottom: 5px;
+    }
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    background-color: aqua;
+}
+.submit, .logout{
+    margin-block: 5px;
+    display: inline-block;
+    :hover{
+        cursor: pointer;
+    }
+    input{
+        padding: 10px;
+    }
+}
