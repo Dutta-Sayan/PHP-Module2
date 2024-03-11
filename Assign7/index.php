@@ -1,9 +1,10 @@
 <?php
-    session_start();
+
     if(isset($_POST["login"])) {
         $username = $_POST["uname"];
         $password = $_POST["pswd"];
         if($username == "sayan" && $password == "123") {
+            session_start();
             $_SESSION['userName'] = $username;
             if (isset($_GET['redirect'])) {
                 header('location:'. $_GET['redirect']);
@@ -13,12 +14,9 @@
             }
         }
     }
-
-
-
-
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
