@@ -1,8 +1,6 @@
 <?php
-error_reporting(E_ALL);
-    error_reporting(E_ALL);
+
     include 'User.php';
-    ini_set('display_errors', 1);
     if(isset($_POST['submit'])) {
         $email = strtolower(trim($_POST['email']));
         $user = new User($email);
@@ -11,7 +9,6 @@ error_reporting(E_ALL);
             $user->welcomeEmail();
         }
     }
-
 ?>
 
 
