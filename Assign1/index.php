@@ -44,7 +44,7 @@
         <div class="container">
             <h2>USER DETAILS</h2>
             <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" class="input-form">
-                First Name: <input class ="fname" type="text" name="fname" placeholder="Enter only alphabets" value="<?php echo $fname?>" maxlength=25><br>
+                First Name: <input class ="fname" type="text" name="fname" placeholder="Enter only alphabets" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
                 <span class="error ferror"><?php echo $ferrMsg; ?></span><br>
 
                 Last Name: <input class ="lname" type="text" name="lname" placeholder="Enter only alphabets" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
