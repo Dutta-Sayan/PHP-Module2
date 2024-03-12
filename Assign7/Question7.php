@@ -2,10 +2,11 @@
 
     session_start();
     $user = $_SESSION['userName'];
-    if($user == false) {
+    if ($user == false) {
         header('location:index.php?redirect=Question7.php?q=7');
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +37,5 @@
         </ul>
             <a class="logout" href="logout.php"><input type="submit" name="logout" value="Log Out"></a>
     </div>
-
-
 </body>
 </html>

@@ -2,15 +2,16 @@
 
     session_start();
     $user = $_SESSION['userName'];
-    if($user == false) {
+    if ($user == false) {
         header('location:index.php?redirect=questions.php');
     }
     else {
-        if(isset($_GET['q'])) {
+        if (isset($_GET['q'])) {
             header('location:Question'.$_GET['q'].'.php');
         }
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

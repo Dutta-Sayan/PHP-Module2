@@ -2,10 +2,11 @@
 
     session_start();
     $user = $_SESSION['userName'];
-    if($user == false) {
+    if ($user == false) {
         header('location:index.php?redirect=Question5.php?q=5');
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

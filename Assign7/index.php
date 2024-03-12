@@ -1,9 +1,13 @@
 <?php
 
-    if(isset($_POST["login"])) {
+    if (isset($_POST["login"])) {
+        // Fetching the user name and password.
         $username = $_POST["uname"];
         $password = $_POST["pswd"];
-        if($username == "sayan" && $password == "123") {
+        // Checking for valid username and password.
+        if ($username == "sayan" && $password == "123") {
+
+            // Starting session on valid user login.
             session_start();
             $_SESSION['userName'] = $username;
             if (isset($_GET['redirect'])) {
@@ -15,7 +19,6 @@
         }
     }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

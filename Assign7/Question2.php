@@ -2,10 +2,11 @@
 
     session_start();
     $user = $_SESSION['userName'];
-    if($user == false) {
+    if ($user == false) {
         header('location:index.php?redirect=Question2.php?q=2');
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,7 @@
     <div class="container">
         <div class="question">
             2. Add a new field to accept user image in addition to the above fields. On submit store the image in the backend and display it with the full name below it.  
-            Estimate Time: 2h 
+            Estimate Time: 2h
             <br>
         </div>
         <h3>Choose question</h3>
