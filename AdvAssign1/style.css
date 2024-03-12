@@ -20,7 +20,7 @@
     .explore{
         margin-top: 15px;
         padding: 7px 20px;
-        border: 2px solid orange;
+        border: 2px solid #ff7900;
         color: black;
         border-radius: 5px;
         display: inline-block;
@@ -28,9 +28,11 @@
 }
 .odd{
     flex-direction: row-reverse;
+    justify-content: center;
+    gap: 50px;
 }
 .service-title{
-    color: orange;
+    color: #ff7900;
 }
 .service-secondary-title{
     color: #4b5561;
@@ -62,7 +64,7 @@
         content: "";
         width: 15px;
         height: 15px;
-        border: 2px solid orange;
+        border: 2px solid #ff7900;
         border-radius: 50%;
         position: absolute;
         left: 0;
