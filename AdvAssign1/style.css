@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style-type: none;
+}
+.container{
+    width: 1200px;
+    margin: auto;
+    padding-inline: 10px;
+}
+.services{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .explore{
+        margin-top: 15px;
+        padding: 7px 20px;
+        border: 2px solid orange;
+        color: black;
+        border-radius: 5px;
+        display: inline-block;
+    }
+}
+.odd{
+    flex-direction: row-reverse;
+}
+.service-title{
+    color: orange;
+}
+.service-secondary-title{
+    color: #4b5561;
+}
+.service-title, .service-secondary-title{
+    font-size: 2.8rem;
+    text-transform: uppercase;
+    font-family: 'Arial';
+    font-weight: bold;
+}
+.service-icon{
+    height: 60px;
+    width: auto;
+    display: inline-block;
+    margin: 8px;
+}
+.services-desc{
+    li{
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 15px;
+        font-size: 0.8em;
+        font-weight: 300;
+        a{
+            color: #4b5561;
+        }
+    }
+    li::before{
+        content: "";
+        width: 15px;
+        height: 15px;
+        border: 2px solid orange;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+    }
+}
