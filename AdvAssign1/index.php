@@ -35,8 +35,7 @@
                     <img src="<?php echo $newProcess->main_img[$i]?>" alt="">
                 </div>
             </div>
-                <?php
-            }?>
+                <?php }?>
     </div>
 </body>
 </html>

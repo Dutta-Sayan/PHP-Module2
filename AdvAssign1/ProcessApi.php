@@ -2,8 +2,16 @@
 
 require_once "vendor/autoload.php";
 use GuzzleHttp\Client;
-class ProcessApi {
 
+/**
+ * Takes the api url as input.
+ * @param mixed 
+ * $title stores the title of each service.
+ * $main_img and $icons store the image and icons of each service respectively.
+ * $desc and $explore store the description and explore links respectively for each service.
+ * 
+ */
+class ProcessApi {
     private string $domain = "https://www.innoraft.com";
     public string $url;
     public $client;
@@ -66,7 +74,7 @@ class ProcessApi {
             // Array to temporarily store icons of each service.
             $iconArr = [];
             // Accessing icons for a single service.
-            foreach ($dataRelationsData['data'] as $iconData){
+            foreach ($dataRelationsData['data'] as $iconData) {
                 $iconDataApi = $iconData['relationships']['field_media_image']['links']['related']['href'];
                 $iconDataResult = $this->fetchData($iconDataApi);
                 $icon = $iconDataResult['data']['attributes']['uri']['url'];
@@ -79,8 +87,7 @@ class ProcessApi {
              * required values at the first of the array.
              * 
              */
-            if($i==15)
-            {
+            if($i==15) {
                 // Accessing and storing the titles.
                 array_unshift($this->title, $dataAttr['field_secondary_title']['value']);
                 // Storing the description lists.
@@ -92,8 +99,7 @@ class ProcessApi {
                 // Storing the icons
                 array_unshift($this->icons, $iconArr);
             }
-            else
-            {
+            else {
                 array_push($this->title, $dataAttr['field_secondary_title']['value']);
                 array_push($this->desc, $fieldService);
                 array_push($this->explore, "$this->domain.$exploreLink");
