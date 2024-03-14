@@ -20,7 +20,7 @@
             $this->lname = $lname;
         }
         public function isValid() {
-            $pattern = "/^[a-zA-Z]+$/";
+            $pattern = "/^[a-zA-Z ]{1,25}$/";
             if (!preg_match($pattern, $this->fname))
                 return $this->fname;
             else if (!preg_match($pattern, $this->lname))

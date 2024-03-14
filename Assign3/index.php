@@ -15,9 +15,9 @@
             // Variable 'returnMsg' stores the value determining if invalid entry is done in input fields.
             $returnMsg = $user->isValid();
             if ($returnMsg == $fname)
-                $ferrMsg = "*Only alphabets allowed";
+                $ferrMsg = "*Error";
             else if ($returnMsg == $lname)
-                $lerrMsg = "*Only alphabets allowed";
+                $lerrMsg = "*Error";
             else {
                 if (isset($_FILES["image"])) {
                     $imgPath = $user->isValidImage();
@@ -65,11 +65,11 @@
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="input-form" enctype="multipart/form-data">
                 
                 <!-- Input area for first name. -->
-                <label for="">First Name: </label><input type="text" class ="fname" name="fname" placeholder="Only alphabets allowed" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <label for="">First Name: </label><input type="text" class ="fname" name="fname" placeholder="Enter only alphabets (Max 25 characters)" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z ]{1,25}$" required><br>
                 <span class="error ferror"><?php echo $ferrMsg; ?></span><br>
 
                 <!-- Input area for last name. -->
-                <label for="">Last Name: </label><input type="text" class="lname" name="lname" placeholder="Only alphabets allowed" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                <label for="">Last Name: </label><input type="text" class="lname" name="lname" placeholder="Enter only alphabets (Max 25 characters)" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z ]{1,25}$" required><br>
                 <span class="error lerror"><?php echo $lerrMsg; ?></span><br>
 
                 <!-- Area for displaying full name. -->
