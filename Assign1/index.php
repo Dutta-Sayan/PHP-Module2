@@ -13,9 +13,9 @@
             // Variable returnMsg stores the value determining if invalid entry is done in input fields.
             $returnMsg = $user->isValid();
             if ($returnMsg == $fname)
-                $ferrMsg = "*Only alphabets allowed";
+                $ferrMsg = "*Error";
             elseif ($returnMsg == $lname)
-                $lerrMsg = "*Only alphabets allowed";
+                $lerrMsg = "*Error";
             else {
                 $greetings = $returnMsg;
                 $name = $fname." ".$lname;
@@ -44,10 +44,10 @@
         <div class="container">
             <h2>USER DETAILS</h2>
             <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" class="input-form">
-                First Name: <input class ="fname" type="text" name="fname" placeholder="Enter only alphabets" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                First Name: <input class ="fname" type="text" name="fname" placeholder="Enter only alphabets (Max 25 characters)" value="<?php echo $fname?>" maxlength=25 pattern="^[a-zA-Z ]{1,25}$" required><br>
                 <span class="error ferror"><?php echo $ferrMsg; ?></span><br>
 
-                Last Name: <input class ="lname" type="text" name="lname" placeholder="Enter only alphabets" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z]+$" required><br>
+                Last Name: <input class ="lname" type="text" name="lname" placeholder="Enter only alphabets (Max 25 characters)" value="<?php echo $lname?>" maxlength=25 pattern="^[a-zA-Z ]{1,25}$" required><br>
                 <span class="error lerror"><?php echo $lerrMsg; ?></span><br>
 
                 Full Name: <input class ="fullname" type="text" name="fullName" placeholder="Full Name" value ="<?php echo $name ?>" disabled><br>
