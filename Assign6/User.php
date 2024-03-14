@@ -1,7 +1,5 @@
 <?php
 
-    // error_reporting(E_ALL);
-    // ini_set('display_errors', 1);
     use Fpdf\Fpdf;
     require('vendor/autoload.php');
     /**
@@ -31,7 +29,7 @@
          * @return string returns naem field value on wrong input and on correct input returns the full name.
          */
         public function isValid() {
-            $pattern = "/^[a-zA-Z]+$/";
+            $pattern = "/^[a-zA-Z ]{1,25}$/";
             if (!preg_match($pattern, $this->fname))
                 return $this->fname;
             else if (!preg_match($pattern, $this->lname))
