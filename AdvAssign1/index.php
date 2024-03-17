@@ -24,6 +24,9 @@ $newProcess->process();
       Loops through the title array and display each title and its respective
       contents. -->
       <?php for ($i = 0; $i < count($newProcess->title); $i++) { ?>
+        <!-- 4 services each of which are shown in alternate left and right directions
+        in the browser. Hence adding a class named odd for seperating the alternate
+        services. -->
         <div class="services <?php if ($i % 2 == 0)
           echo "odd"; ?>">
           <div class="title">
