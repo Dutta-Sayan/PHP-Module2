@@ -88,7 +88,7 @@
                 <label for="image">Upload your image </label><input class="image-input" type="file" name="image" accept="image/*" required><br>
                 <span class="error"><?php echo $imgErr; ?></span><br>
                 <label for="marks">Enter your marks:</label>
-                <textarea name="marks" id="" cols="30" rows="3" placeholder="Enter in the format: Subject|Marks. Max marks can be 3 digits."></textarea><br>
+                <textarea class="marks" name="marks" id="" cols="30" rows="3" placeholder="Enter in the format: Subject|Marks. Max marks can be 3 digits."></textarea><br>
                 <span class="error marksErr"><?php echo $marksErr; ?></span><br>
             
                 <!-- Input area for mobile number. -->
